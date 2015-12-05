@@ -1,0 +1,32 @@
+* [x] Get to know the app and identify what needs to be changed
+* [ ] Determine if any all the existing custom layouts are required
+* [ ] Find any layout dimensions where the existing layouts fail
+* [ ] Determine if vector drawables can be used instead of bitmapped
+* [ ] App uses the Design Support library and its provided widget types
+      (FloatingActionButton, AppBarLayout, SnackBar, etc).
+* [ ] App uses CoordinatorLayout for the main activity.
+* [ ] App theme extends from AppCompat.
+* [ ] App uses an app bar and associated toolbars.
+* [ ] App provides a Floating Action Button (FAB) for the most common action(s).
+* [ ] App properly specifies elevations for app bars, FABs, and other elements specified
+      in the Material Design specification.
+* [ ] App provides sufficient space between text and surrounding elements.
+* [ ] App has a consistent color theme defined in styles.xml.
+* [ ] Color theme does not impact usability of the app.
+* [ ] App uses images that are high quality, specific, and full bleed.
+* [ ] App uses fonts that are either the Android defaults, are complementary,
+      and aren't otherwise distracting.
+* [ ] App conforms to common standards found in the Android Nanodegree
+      General Project Guidelines
+
+* [ ] Fix the lack of url when sharing
+* [ ] Add paralax scrolling on details view
+* [ ] expand the article image to fit the top of the screen in mode
+* [ ] perform image transition from list to detail view
+* [ ] Move the article title into the topbar
+* [ ] Give the article a paper look
+* [ ] Expand image to fit the article box on the article list page
+* [ ] overlay title and author on article image in the list layout
+* [ ] ensure all image heights are the same on the list page
+* [ ] show some article content on the list page
+* [ ] Make the toolbar look better
