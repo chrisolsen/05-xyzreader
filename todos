@@ -25,8 +25,7 @@
 * [ ] perform image transition from list to detail view
 * [ ] Move the article title into the topbar
 * [ ] Give the article a paper look
-* [ ] Expand image to fit the article box on the article list page
-* [ ] overlay title and author on article image in the list layout
-* [ ] ensure all image heights are the same on the list page
-* [ ] show some article content on the list page
+* [x] Expand image to fit the article box on the article list page
+* [x] overlay title and author on article image in the list layout
+* [?] show some article content on the list page
 * [ ] Make the toolbar look better
