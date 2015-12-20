@@ -1,5 +1,6 @@
 <com.example.xyzreader.ui.DrawInsetsFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/draw_insets_frame_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -64,14 +65,16 @@
                         android:paddingBottom="@dimen/detail_metabar_title_bottom_padding"
                         android:textColor="#fff"
                         android:textSize="@dimen/detail_title_text_size"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        tools:text="Mysteries of the Universe Solved"/>
 
                     <TextView
                         android:id="@+id/article_byline"
                         style="?android:attr/textAppearanceSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="#8fff" />
+                        android:textColor="#8fff"
+                        tools:text="Jun 19, 2013 by Carl Sagan" />
                 </LinearLayout>
 
                 <TextView
@@ -85,7 +88,7 @@
                     android:paddingBottom="@dimen/detail_body_bottom_margin"
                     android:textColor="@color/scrim_text_primary"
                     android:textColorLink="@color/theme_accent"
-                    android:textSize="@dimen/detail_body_text_size" />
+                    tools:text="@string/lorem"/>
 
             </com.example.xyzreader.ui.MaxWidthLinearLayout>
         </FrameLayout>
