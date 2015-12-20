@@ -9,6 +9,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.RemoteException;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.format.Time;
 import android.util.Log;
 
@@ -28,6 +29,8 @@ public class UpdaterService extends IntentService {
     public static final String EXTRA_REFRESHING
             = "com.example.xyzreader.intent.extra.REFRESHING";
 
+    private LocalBroadcastManager mBroadcastManager;
+
     public UpdaterService() {
         super(TAG);
     }
@@ -36,15 +39,17 @@ public class UpdaterService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         Time time = new Time();
 
+        mBroadcastManager = LocalBroadcastManager.getInstance(this);
+        
         ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
         NetworkInfo ni = cm.getActiveNetworkInfo();
         if (ni == null || !ni.isConnected()) {
             Log.w(TAG, "Not online, not refreshing.");
             return;
         }
-
-        sendStickyBroadcast(
-                new Intent(BROADCAST_ACTION_STATE_CHANGE).putExtra(EXTRA_REFRESHING, true));
+        
+        Intent initialMessage = new Intent(BROADCAST_ACTION_STATE_CHANGE).putExtra(EXTRA_REFRESHING, true);
+        mBroadcastManager.sendBroadcast(initialMessage);
 
         // Don't even inspect the intent, we only do one thing, and that's fetch content.
         ArrayList<ContentProviderOperation> cpo = new ArrayList<ContentProviderOperation>();
@@ -81,7 +86,7 @@ public class UpdaterService extends IntentService {
             Log.e(TAG, "Error updating content.", e);
         }
 
-        sendStickyBroadcast(
-                new Intent(BROADCAST_ACTION_STATE_CHANGE).putExtra(EXTRA_REFRESHING, false));
+        Intent finalMessage = new Intent(BROADCAST_ACTION_STATE_CHANGE).putExtra(EXTRA_REFRESHING, false);
+        mBroadcastManager.sendBroadcast(finalMessage);
     }
 }

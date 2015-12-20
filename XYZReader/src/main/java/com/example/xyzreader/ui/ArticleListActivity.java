@@ -8,10 +8,12 @@ import android.content.IntentFilter;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -30,6 +32,8 @@ import com.example.xyzreader.data.UpdaterService;
 public class ArticleListActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor> {
 
+    private static final String TAG = "ArticleListActivity";
+    private LocalBroadcastManager mLocalBroadcastManager;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mRecyclerView;
 
@@ -55,14 +59,14 @@ public class ArticleListActivity extends AppCompatActivity implements
     @Override
     protected void onStart() {
         super.onStart();
-        registerReceiver(mRefreshingReceiver,
+        mLocalBroadcastManager.registerReceiver(mRefreshingReceiver,
                 new IntentFilter(UpdaterService.BROADCAST_ACTION_STATE_CHANGE));
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        unregisterReceiver(mRefreshingReceiver);
+        mLocalBroadcastManager.unregisterReceiver(mRefreshingReceiver);
     }
 
     private boolean mIsRefreshing = false;
@@ -72,14 +76,11 @@ public class ArticleListActivity extends AppCompatActivity implements
         public void onReceive(Context context, Intent intent) {
             if (UpdaterService.BROADCAST_ACTION_STATE_CHANGE.equals(intent.getAction())) {
                 mIsRefreshing = intent.getBooleanExtra(UpdaterService.EXTRA_REFRESHING, false);
-                updateRefreshingUI();
+                Log.d(TAG, "onReceive: BroadcastManager " + Boolean.toString(mIsRefreshing));
+                mSwipeRefreshLayout.setRefreshing(mIsRefreshing);
             }
         }
     };
-
-    private void updateRefreshingUI() {
-        mSwipeRefreshLayout.setRefreshing(mIsRefreshing);
-    }
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
