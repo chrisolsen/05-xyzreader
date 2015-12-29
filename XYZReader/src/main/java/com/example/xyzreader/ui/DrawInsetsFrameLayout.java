@@ -28,7 +28,11 @@ import android.widget.FrameLayout;
 
 import com.example.xyzreader.R;
 
-
+/**
+ * A layout that draws something in the insets passed to {@link #fitSystemWindows(Rect)}, i.e. the area above UI chrome
+ * (status and navigation bars, overlay action bars).
+ * https://gist.github.com/romannurik/8919163
+ */
 public class DrawInsetsFrameLayout extends FrameLayout {
     private Drawable mInsetBackground;
     private Drawable mTopInsetBackground;
