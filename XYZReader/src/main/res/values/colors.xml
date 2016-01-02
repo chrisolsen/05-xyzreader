@@ -27,4 +27,5 @@
     <color name="scrim_text_secondary">#aae0e0e0</color>
     
     <color name="scrim_bottom">#4d000000</color>
+    <color name="detail_background">#eeeeee</color>
 </resources>

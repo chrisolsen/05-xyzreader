@@ -23,10 +23,13 @@
         <item name="colorAccent">@color/theme_accent</item>
     </style>
 
+    <style name="Theme.Bacon.Detail">
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="windowActionBarOverlay">true</item>
+    </style>
+
     <style name="Theme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="Theme.Bacon.Detail">
 
-    </style>
 
 </resources>

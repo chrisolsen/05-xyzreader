@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="gone" format="integer" type="integer">0</item>
+    <item name="visible" format="integer" type="integer">2</item>
+    <item name="match_parent" format="integer" type="dimen">-1</item>
+</resources>

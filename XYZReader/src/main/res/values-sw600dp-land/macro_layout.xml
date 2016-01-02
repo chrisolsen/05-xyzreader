@@ -2,6 +2,8 @@
     <!-- detail -->
     <bool name="detail_is_card">true</bool>
 
+    <dimen name="detail_metabar_title_top_padding">16dp</dimen>
     <dimen name="detail_photo_height">600dp</dimen>
     <dimen name="detail_card_top_margin">256dp</dimen>
+    <dimen name="detail_card_layout_width">704dp</dimen>
 </resources>
