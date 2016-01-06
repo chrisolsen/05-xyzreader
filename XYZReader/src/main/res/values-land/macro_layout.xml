@@ -6,6 +6,6 @@
     <dimen name="detail_photo_height">304dp</dimen>
     <dimen name="detail_card_top_margin">100dp</dimen>
     <dimen name="detail_card_layout_width">@dimen/match_parent</dimen>
-    <dimen name="detail_card_elevation">4dp</dimen>
+    <dimen name="detail_card_elevation">2dp</dimen>
     <dimen name="detail_card_margin">20dp</dimen>
 </resources>
