@@ -1,5 +1,6 @@
 package com.example.xyzreader.ui;
 
+import android.animation.Animator;
 import android.app.Fragment;
 import android.app.LoaderManager;
 import android.content.Intent;
@@ -16,6 +17,7 @@ import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -86,16 +88,6 @@ public class ArticleDetailFragment extends Fragment implements
         mRootView = inflater.inflate(R.layout.fragment_article_detail, container, false);
         mPhotoView = (ImageView) mRootView.findViewById(R.id.photo);
 
-        mRootView.findViewById(R.id.share_fab).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(Intent.createChooser(ShareCompat.IntentBuilder.from(getActivity())
-                        .setType("text/plain")
-                        .setText("Some sample text")
-                        .getIntent(), getString(R.string.action_share)));
-            }
-        });
-
         Toolbar toolbar = (Toolbar) mRootView.findViewById(R.id.toolbar);
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(toolbar);
@@ -116,6 +108,7 @@ public class ArticleDetailFragment extends Fragment implements
         bylineView.setMovementMethod(new LinkMovementMethod());
         TextView bodyView = (TextView) mRootView.findViewById(R.id.article_body);
         Toolbar toolbar = (Toolbar) mRootView.findViewById(R.id.toolbar);
+        View shareFab = mRootView.findViewById(R.id.share_fab);
 
         if (mCursor != null) {
             String author = mCursor.getString(ArticleLoader.Query.AUTHOR);
@@ -124,8 +117,8 @@ public class ArticleDetailFragment extends Fragment implements
                     System.currentTimeMillis(), DateUtils.HOUR_IN_MILLIS,
                     DateUtils.FORMAT_ABBREV_ALL).toString();
             String credit = String.format("%s by <font color='#000000'>%s</font>", date, author);
-            String title = mCursor.getString(ArticleLoader.Query.TITLE);
-            String body = mCursor.getString(ArticleLoader.Query.BODY);
+            final String title = mCursor.getString(ArticleLoader.Query.TITLE);
+            final String body = mCursor.getString(ArticleLoader.Query.BODY);
 
             // fade in
             mRootView.setAlpha(0);
@@ -138,6 +131,17 @@ public class ArticleDetailFragment extends Fragment implements
             bylineView.setText(Html.fromHtml(credit));
             bodyView.setText(Html.fromHtml(body));
 
+            // shareFab
+            shareFab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(Intent.createChooser(ShareCompat.IntentBuilder.from(getActivity())
+                            .setType("text/plain")
+                            .setText(title)
+                            .getIntent(), getString(R.string.action_share)));
+                }
+            });
+
             // image
             ImageLoaderHelper.getInstance(getActivity()).getImageLoader()
                     .get(mCursor.getString(ArticleLoader.Query.PHOTO_URL), new ImageLoader.ImageListener() {
@@ -145,8 +149,20 @@ public class ArticleDetailFragment extends Fragment implements
                         public void onResponse(ImageLoader.ImageContainer imageContainer, boolean b) {
                             Bitmap bitmap = imageContainer.getBitmap();
                             mPhotoView.setImageBitmap(bitmap);
-                            mPhotoView.setVisibility(View.VISIBLE);
-                            // keep the status bar color the same, much like Google's Newsstand app
+
+                            int cx = mPhotoView.getWidth() / 2;
+                            int cy = mPhotoView.getWidth() / 2;
+                            int finalRadius = Math.max(cx, cy);
+                            boolean isLollipop = android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP;
+
+                            // if finalRadius == 0 then this fragment/activity is not in a valid transition
+                            if (finalRadius > 0 && isLollipop) {
+                                Animator reveal = ViewAnimationUtils.createCircularReveal(mPhotoView, cx, cy, 0, finalRadius);
+                                mPhotoView.setVisibility(View.VISIBLE);
+                                reveal.start();
+                            } else {
+                                mPhotoView.setVisibility(View.VISIBLE);
+                            }
                         }
 
                         @Override

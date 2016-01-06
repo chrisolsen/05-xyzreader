@@ -103,6 +103,8 @@ public class ArticleListActivity extends AppCompatActivity implements
         StaggeredGridLayoutManager sglm =
                 new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(sglm);
+
+
     }
 
     @Override
@@ -124,14 +126,27 @@ public class ArticleListActivity extends AppCompatActivity implements
         }
 
         @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = getLayoutInflater().inflate(R.layout.list_item_article, parent, false);
+        public ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
+            final View view = getLayoutInflater().inflate(R.layout.list_item_article, parent, false);
             final ViewHolder vh = new ViewHolder(view);
+            final String transitionName = ArticleListActivity.this.getString(R.string.transition_photo);
+
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view) {
-                    startActivity(new Intent(Intent.ACTION_VIEW,
-                            ItemsContract.Items.buildItemUri(getItemId(vh.getAdapterPosition()))));
+                public void onClick(View v) {
+                    View viewFrom = view.findViewById(R.id.thumbnail);
+
+                    // FIXME: this animation does not work drilling into to the detail view and
+                    //        results in a mismatched image transition coming back...FAIL
+                    // ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                    //         ArticleListActivity.this,
+                    //         Pair.create(viewFrom, transitionName));
+
+                    Intent intent = new Intent(Intent.ACTION_VIEW,
+                            ItemsContract.Items.buildItemUri(getItemId(vh.getAdapterPosition())));
+
+                    // startActivity(intent, options.toBundle());
+                    startActivity(intent);
                 }
             });
             return vh;
